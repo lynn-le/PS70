@@ -1,0 +1,19 @@
+body {
+    margin: auto;
+    padding: 10%;
+    font-family: Manrope;
+}
+.name {
+    text-align: left;
+    font-size: 60px;
+    margin: 0;
+}
+.header{
+    display: flexbox;
+}
+.header div{
+    margin: 10px;
+}
+.link {
+    /* font-family: Manrope; */
+}

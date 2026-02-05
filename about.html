@@ -6,20 +6,54 @@
     <title>Lynn's PS70 Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="main.js" defer></script>
 </head>
 <body>
-    <div class="header">
-        <div>
-            <h1 class="name">
-                About Me
-            </h1>
+    <nav class="menu">
+        <div class="menu-text">Lynn Le</div>
+        <div class="menu-links">
+            <a href="index.html" class="menu-link">Home</a>
+            <a href="about.html" class="menu-link">About</a>
+            <a href="final.html" class="menu-link">Final Project Proposal</a>
         </div>
-    </div>
+    </nav>
 
-    I'm a senior in Eliot studying CS. For fun, I like to take pictures, play games, and cook!
+    <header class="header">
+        <div class="header-text">
+            <h1 class="title">Hi, I’m Lynn</h1>
+            <p class="subtitle">I’m a senior in Eliot studying computer science. For fun, I like to take pictures, play games, and cook.
+                You can find me looking for new nail polish, trying a new recipe, or dragging my friends out of trouble.
+            </p>
+        </div>
+    </header>
 
+    <main class="gallery">
+        <div class="polaroid">
+            <div class="polaroid-photo">
+                <img src="images/museum.jpg" alt="art museum" onerror="this.remove()">
+            </div>
+            <div class="polaroid-caption">Harvard Art Museum</div>
+        </div>
+        <div class="polaroid">
+            <div class="polaroid-photo">
+                <img src="images/dog.jpg" alt="dog" onerror="this.remove()">
+            </div>
+            <div class="polaroid-caption">A Random Dog</div>
+        </div>
+        <div class="polaroid">
+            <div class="polaroid-photo">
+                <img src="images/japan.jpg" alt="Fushimi Inari" onerror="this.remove()">
+            </div>
+            <div class="polaroid-caption">Fushimi Inari</div>
+        </div>
+        <div class="polaroid">
+            <div class="polaroid-photo">
+                <img src="images/cookies.jpeg" alt="Recent batch of cookies" onerror="this.remove()">
+            </div>
+            <div class="polaroid-caption">Recent Batch of Cookies</div>
+        </div>
+    </main>
 </body>
 </html>

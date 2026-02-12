@@ -75,8 +75,19 @@ body {
 .subtitle {
     margin: 0;
     color: var(--muted);
-    max-width: 40ch;
     line-height: 1.5;
+}
+
+.section-photo {
+    max-width: 80%;
+}
+
+.subheader {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
 }
 
 .header-frame {
@@ -92,7 +103,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 28px;
+    margin: auto;
+    padding: 5%;
 }
+
 
 .polaroid {
     text-decoration: none;
@@ -137,6 +151,15 @@ body {
     display: block;
 }
 
+.polaroid-photo--tall {
+    aspect-ratio: 3 / 4;
+}
+
+.polaroid-photo--tall img {
+    object-fit: contain;
+    background-color: #d8cfc3;
+}
+
 .polaroid-caption {
     margin-top: 16px;
     font-size: 14px;
@@ -149,6 +172,7 @@ body {
     .header {
         grid-template-columns: 1fr;
     }
+
 
     .menu {
         position: static;

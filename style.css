@@ -79,7 +79,15 @@ body {
 }
 
 .section-photo {
-    max-width: 80%;
+    max-width: 100%;
+}
+
+.pdf-viewer {
+    display: block;
+    width: 50%;
+    height: 80vh;
+    border: none;
+    margin: 16px auto 0;
 }
 
 .subheader {

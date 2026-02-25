@@ -159,6 +159,11 @@ body {
     display: block;
 }
 
+.polaroid-photo .zoom-out {
+    object-fit: contain;
+    background-color: #d8cfc3;
+}
+
 .polaroid-photo--tall {
     aspect-ratio: 3 / 4;
 }

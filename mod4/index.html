@@ -56,7 +56,123 @@
         <p>When coding, I implemented my traffic system using classes, just in case I wanted more than one system.
             I also added in some sections to deal with inconsistent button behaviors, such as stuttering and delay.
             My code has a bunch of helper functions to decrease redundancy as well as make the main functions more
-            legible.
+            legible. Most of the initialization happens in the constructor, with only the beginning state happening
+            in another function (begin).
+        </p>
+        <pre>
+          <code class="language-cpp">
+TrafficSystem (int redPin, int yellowPin, int greenPin, int motor1A, int motor1B, int buttonPin){
+    red = redPin;
+    yellow = yellowPin;
+    green = greenPin; 
+    A1A = motor1A;
+    A1B = motor1B;
+    button = buttonPin;
+
+    // declare pins
+    pinMode(red, OUTPUT);
+    pinMode(yellow, OUTPUT);
+    pinMode(green, OUTPUT);
+    pinMode(button, INPUT_PULLUP); // not pressed = high
+    pinMode(A1A, OUTPUT);
+    pinMode(A1B, OUTPUT);
+  }
+
+  void begin() {
+    // initialize to default red/stop state
+    turnRed();
+  }
+          </code>
+        </pre>
+        <p class="subtitle">
+          I also made helper functions that perform a variety of actions, mainly
+          changing the state of the system (red, yellow, green) and addressing 
+          button behaviors. When changing states, we reassign the state, restart 
+          the state timer, change the lights that are on, and change the speed of 
+          the kinetic sculpture. As for the button, we're just making sure that 
+          when the microcontroller senses a change, its only because someone pressed 
+          the button by tracking the last (stable) read state and ensuring the new 
+          state is different.
+        </p>
+        <pre>
+          <code class="language-cpp">
+void turnRed() {
+    // change the state
+    state = STOP;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(true, false, false);
+    // change motor speed
+    setPWM(0, A1A, A1B);
+  }
+  
+    void turnYellow() {
+    // change the state
+    state = SLOW;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(false, true, false);
+    // change motor speed
+    setPWM(yellowSpeed, A1A, A1B);
+  }
+
+    void turnGreen() {
+    // change the state
+    state = GO;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(false, false, true);
+    // change motor speed
+    setPWM(greenSpeed, A1A, A1B);
+  }
+
+  // handle debounce delay in buttons
+  // check if the button was pressed and released so that states only change after you let go of the button
+  bool buttonPressed() {
+    // default button reading is high
+    static bool lastStableState = HIGH;
+    static bool lastReading = HIGH;
+    static unsigned long lastChangeTime = 0;
+    const unsigned long debounceDelay = 30;
+
+    bool reading = digitalRead(button);
+
+    // if our current read is different from last read, aka potential let go
+    if (reading != lastReading) {
+      // update our change time
+      lastChangeTime = millis();
+    }
+
+    // if we are past the time of debounce delay 
+    if (millis() - lastChangeTime > debounceDelay) {
+      // and our current reading isnt our past stable reading
+      if (reading != lastStableState) {
+        // update our last stable state to our current reading
+        lastStableState = reading;
+
+        if (lastStableState == LOW) {
+          // update last reading
+          lastReading = reading;
+          // return that the button is pressed
+          return true;
+        }
+      }
+    }
+    // else update reading and return not pressed
+    lastReading = reading;
+    return false;
+}            
+          </code>
+        </pre>
+        <p class="subtitle">
+          Putting it all together, we basically have the full code.
+          Within update, we are constantly checking what the state is
+          as well as how much time is passed to decide whether or not 
+          to change states. The only exception is when the light is red,
+          since we have to check if the button is pressed.
         </p>
         <pre>
             <code class="language-cpp">

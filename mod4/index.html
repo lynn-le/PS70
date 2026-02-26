@@ -59,7 +59,7 @@
             legible. Most of the initialization happens in the constructor, with only the beginning state happening
             in another function (begin).
         </p>
-        <pre>
+        <pre class="code-block">
           <code class="language-cpp">
 TrafficSystem (int redPin, int yellowPin, int greenPin, int motor1A, int motor1B, int buttonPin){
     red = redPin;
@@ -94,7 +94,7 @@ TrafficSystem (int redPin, int yellowPin, int greenPin, int motor1A, int motor1B
           the button by tracking the last (stable) read state and ensuring the new 
           state is different.
         </p>
-        <pre>
+        <pre class="code-block">
           <code class="language-cpp">
 void turnRed() {
     // change the state
@@ -166,7 +166,7 @@ void turnRed() {
     return false;
 }            
           </code>
-        </pre>
+        </pre class="code-block">
         <p class="subtitle">
           Putting it all together, we basically have the full code.
           Within update, we are constantly checking what the state is
@@ -174,7 +174,7 @@ void turnRed() {
           to change states. The only exception is when the light is red,
           since we have to check if the button is pressed.
         </p>
-        <pre>
+        <pre class="code-block">
             <code class="language-cpp">
 const int redPin = 27;
 const int yellowPin = 32;

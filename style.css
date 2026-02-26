@@ -197,7 +197,6 @@ body {
 }
 
 .code-block {
-    width: min(700px, 100%);
     margin-top: 24px;
     margin-bottom: 24px;
     margin-left: auto;

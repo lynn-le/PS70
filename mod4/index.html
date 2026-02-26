@@ -8,7 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
     <script src="../main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
 <body>
     <nav class="menu">
@@ -24,11 +28,234 @@
     <header class="header">
         <div class="header-text">
             <h1 class="title">Week 4: Microcontroller Programming</h1>
-            <p class="subtitle">Placeholder text</p>
+            <p class="subtitle">The traffic system.</p>
         </div>
     </header>
     <main>
-        <p class="subtitle">Content coming soon.</p>
+        <p class="subheader">The Idea</p>
+        <p class="subtitle">
+            When thinking about how to add a microcontroller to my kinetic sculpture,
+            I had a couple of ideas. However, I eventually decided to implement a traffic
+            system for my koi fish, since I wanted to play with LEDs and my motor. I ended
+            up using three LED lights, one for each light. These LED's are connected to 100Ω 
+            resistors to help manage current. I added a button, since I wanted to be able to
+            trigger the cycle instead of letting it run on a natural one. I used pins for my 
+            motor driver as well, since I wanted to control the speed of my sculpture depending
+            on the light (and for safe practice of course). For my button, I used the built-in 
+            pull-up resistor.
+        </p>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="../images/circuit.jpeg" alt="Microcontroller circuit">
+                </div>
+                <div class="polaroid-caption">Circuit diagram</div>
+            </div>
+        </section>
+        <p class="subheader">The Code</p>
+        <p>When coding, I implemented my traffic system using classes, just in case I wanted more than one system.
+            I also added in some sections to deal with inconsistent button behaviors, such as stuttering and delay.
+            My code has a bunch of helper functions to decrease redundancy as well as make the main functions more
+            legible.
+        </p>
+        <pre>
+            <code class="language-cpp">
+const int redPin = 27;
+const int yellowPin = 32;
+const int greenPin = 33;
+
+const int buttonPin = 22;   
+const int A1A = 25;
+const int A1B = 26;
+
+const unsigned long greenCycle  = 5000; // 5s
+const unsigned long yellowCycle = 3000; // 3s
+
+// must be between 0 and 255
+const int greenSpeed = 220; // ~4.31v
+const int yellowSpeed = 160; // ~3.14v
+
+class TrafficSystem {
+  enum State {STOP, SLOW, GO};
+  State state = STOP;
+  unsigned long stateStart = 0;
+  int red, yellow, green, button, A1A, A1B;
+
+  // helper functions
+
+  void setLights(bool r, bool y, bool g) {
+    digitalWrite(red,    r ? HIGH : LOW);
+    digitalWrite(yellow, y ? HIGH : LOW);
+    digitalWrite(green,  g ? HIGH : LOW);
+  }
+
+  void setPWM(int pwm, int A1A, int A1B) {
+    analogWrite(A1A, pwm);
+    analogWrite(A1B, 0);
+  }
+
+  void turnRed() {
+    // change the state
+    state = STOP;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(true, false, false);
+    // change motor speed
+    setPWM(0, A1A, A1B);
+  }
+  
+    void turnYellow() {
+    // change the state
+    state = SLOW;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(false, true, false);
+    // change motor speed
+    setPWM(yellowSpeed, A1A, A1B);
+  }
+
+    void turnGreen() {
+    // change the state
+    state = GO;
+    // restart state timer
+    stateStart = millis();
+    // change the lights
+    setLights(false, false, true);
+    // change motor speed
+    setPWM(greenSpeed, A1A, A1B);
+  }
+
+  // handle debounce delay in buttons
+  // check if the button was pressed and released so that states only change after you let go of the button
+  bool buttonPressed() {
+    // default button reading is high
+    static bool lastStableState = HIGH;
+    static bool lastReading = HIGH;
+    static unsigned long lastChangeTime = 0;
+    const unsigned long debounceDelay = 30;
+
+    bool reading = digitalRead(button);
+
+    // if our current read is different from last read, aka potential let go
+    if (reading != lastReading) {
+      // update our change time
+      lastChangeTime = millis();
+    }
+
+    // if we are past the time of debounce delay 
+    if (millis() - lastChangeTime > debounceDelay) {
+      // and our current reading isnt our past stable reading
+      if (reading != lastStableState) {
+        // update our last stable state to our current reading
+        lastStableState = reading;
+
+        if (lastStableState == LOW) {
+          // update last reading
+          lastReading = reading;
+          // return that the button is pressed
+          return true;
+        }
+      }
+    }
+    // else update reading and return not pressed
+    lastReading = reading;
+    return false;
+}
+
+  public:
+  TrafficSystem (int redPin, int yellowPin, int greenPin, int motor1A, int motor1B, int buttonPin){
+    red = redPin;
+    yellow = yellowPin;
+    green = greenPin; 
+    A1A = motor1A;
+    A1B = motor1B;
+    button = buttonPin;
+
+    // declare pins
+    pinMode(red, OUTPUT);
+    pinMode(yellow, OUTPUT);
+    pinMode(green, OUTPUT);
+    pinMode(button, INPUT_PULLUP); // not pressed = high
+    pinMode(A1A, OUTPUT);
+    pinMode(A1B, OUTPUT);
+  }
+
+  void begin() {
+    // initialize to default red/stop state
+    turnRed();
+  }
+
+  void update() {
+    unsigned long now = millis();
+    switch (state) {
+      // red light
+      case STOP:
+        // wait for button press
+        if (buttonPressed()){
+          turnGreen();
+        }
+        break;
+      
+      // yellow light
+      case SLOW:
+        // if proper amount of time elapsed, switch to red
+        if (now - stateStart >= yellowCycle) {
+          turnRed();
+        }
+        break;
+      
+      // green light
+      case GO:
+        // if proper amount of time elapsed, switch to yellow
+        if (now - stateStart >= greenCycle) {
+          turnYellow();
+        }
+        break;
+    }
+  }
+};
+
+void setup() {
+}
+TrafficSystem system1(redPin, yellowPin, greenPin, A1A, A1B, buttonPin);
+
+void loop() {
+  system1.update();
+}
+            </code>
+        </pre>
+        <p class="subheader">The Product</p>
+        <p class="subtitle">
+            I made minimal changes to my scuplture after connecting the circuit,
+            shifting the motor so that it could connect properly with the traffic
+            system as well as tweaking the speed so that the shift was more noticeable.
+             Here's the final result.
+        </p>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img src="../images/fullCircuit.gif" alt="running traffic system">
+                </div>
+                <div class="polaroid-caption">The full circuit</div>
+            </div>
+        </section>
+
+        <p class="subheader">Reflections</p>
+        <p class="subtitle">
+            After some thought, I realized that my sculpture wouldn't be able
+            to support more than one traffic system, since I only have one motor.
+            It would probably be better to implement some crossing sounds (mario kart sounds?)
+            or something else. Either way, it might've been better if I didn't use the class system,
+            since I couldn't support more than one system.
+        </p>
+        <p class="subtitle">In addition, it might be cool to tweak the speeds of the koi fish more. 
+            Instead of immediately going, I could've ramped up the speed when the light changed from
+            red to green. I also might be able to clean up my code more, since it seems a little long
+            right now. I would probably also reassign the pins for the Xiao microcontroller (mine broke!),
+            but that should be relatively easy.
+        </p>
     </main>
 </body>
 </html>

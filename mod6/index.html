@@ -9,6 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <script src="../main.js" defer></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css">
+    <script src="../main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
 <body>
     <nav class="menu">
@@ -24,12 +29,235 @@
     <header class="header">
         <div class="header-text">
             <h1 class="title">Week 6: Sensors and Input Devices</h1>
-            <p class="subtitle">Placeholder text</p>
+            <p class="subtitle">Measuring distance and temperature.</p>
         </div>
     </header>
 
     <main>
-        <p class="subtitle">Content coming soon.</p>
+        <p class="subheader">Capacitive Sensor</p>
+        <p class="subtitle">
+            For my capacitive sensor, I decided to measure distance. I ended up making two small
+            stands that I clipped the plates to, with one stationary and the other moving along
+            a meter stick. To calibrate it, I started from zero centimeters and moved up in
+            5 centimeter increments until the reading no longer decreased. Plotting on a graph,
+            we can see that the relationship between real distance and measured reading follows 
+            a logarithmic line, levelling off around 40 centimeters. This is probably due to the
+            decrease in precision and accuracy as we move the plates farther away, with 40 centimeters
+            being the farthest we can get meaningful readings.
+        </p>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img src="./capacitive.jpeg" alt="Measuring Distance with capacitive sensor">
+                </div>
+                <div class="polaroid-caption">The capacitive sensor.</div>
+            </div>
+             <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./capacitiveDiagram.jpeg" alt="The diagram of the capacitive circuit">
+                </div>
+                <div class="polaroid-caption">The capacitive circuit diagram.</div>
+            </div>
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./capacitiveGraph.jpeg" alt="The graph of the capacitive sensor">
+                </div>
+                <div class="polaroid-caption">The graph of the capacitive circuit diagram.</div>
+            </div>
+        </section>
+        <p class="subtitle">As for the coding portion, I mostly just adapted the arduino code we were given in class,
+            changing it to add class structure and remove delay.
+        </p>
+
+        <pre class="code-block">
+            <code class="language-cpp">
+class CapacitanceSensor {
+  int analogPin;
+  int txPin;
+
+public:
+  CapacitanceSensor(int inputAnalogPin, int inputTxPin) {
+    analogPin = inputAnalogPin;
+    txPin = inputTxPin;
+  }
+
+  void begin() {
+    pinMode(txPin, OUTPUT);
+    digitalWrite(txPin, LOW);
+  }
+
+  int readHigh() {
+    digitalWrite(txPin, HIGH);
+    return analogRead(analogPin);
+  }
+
+  int readLow() {
+    digitalWrite(txPin, LOW);
+    return analogRead(analogPin);
+  }
+};
+
+CapacitanceSensor mySensor(A0, D1);
+
+unsigned long lastStep = 0;
+const unsigned long interval = 100;  // microseconds
+
+int state = 0; // 0 = measure HIGH, 1 = measure LOW + add sample
+int readHighValue = 0;
+int readLowValue = 0;
+
+long sum = 0;
+int sampleCount = 0;
+const int totalSamples = 100;
+
+void setup() {
+  Serial.begin(9600);
+  mySensor.begin();
+}
+
+void loop() {
+  unsigned long now = micros();
+
+  if (now - lastStep >= interval) {
+    lastStep = now;
+
+    if (state == 0) {
+      readHighValue = mySensor.readHigh();
+      state = 1;
+    }
+    else if (state == 1) {
+      readLowValue = mySensor.readLow();
+      sum += (readHighValue - readLowValue);
+      sampleCount++;
+      state = 0;
+
+      if (sampleCount >= totalSamples) {
+        Serial.println(sum);
+        sum = 0;
+        sampleCount = 0;
+      }
+    }
+  }
+}
+          </code>
+        </pre>
+        <p class="subheader">Thermistor Sensor</p>
+        <p class="subtitle">For my second sensor, I decided to use a thermistor to 
+            read the temperature and sense when I was touching it. To do so, I created a voltage
+            divider with the thermistor and a 10Kohm resistor. In addition, I added an LED, which
+            would turn on when I touched the sensor. I calibrated the sensor by dipping the thermistor
+            into various cups of water boiled to specific temperatures (through a kettle). As such, I 
+            was limited on what data points I used. Most of the entries were above 100 degrees, with one
+            at 32 degrees, which I achieved by using ice water. The relationship between the 
+            reading and the actual temperature followed a power regression. At 212 degrees farenheight, 
+            the reading was 4095, which I assumes means we wouldn't be able to read higher temperatures.
+        </p>
+        
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img src="./thermistor.jpeg" alt="Thermistor sensor circuit">
+                </div>
+                <div class="polaroid-caption">The thermistor + LED circuit.</div>
+            </div>
+             <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img src="./thermistorDiagram.jpeg" alt="Thermistor circuit diagram">
+                </div>
+                <div class="polaroid-caption">The circuit diagram.</div>
+            </div>
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./thermistorGraph.jpeg" alt="Thermistor measured vs actual temperatures">
+                </div>
+                <div class="polaroid-caption">The graph showing measured versus actual temperatures.</div>
+            </div>
+        </section>
+        <p class="subtitle">
+            From there, I played around to see what a good threshold value for my body temperature would be.
+            I ended up choosing a value of 2200 so that I would have to hold the sensor for a little to 
+            actually trigger the LED.
+        </p>
+                <pre class="code-block">
+            <code class="language-cpp">
+class Thermistor {
+  int pin;
+
+public:
+  Thermistor(int inputPin) {
+    pin = inputPin;
+    Serial.begin(9600);
+  }
+
+  int readValue() {
+    return analogRead(pin);
+  }
+};
+
+class Led {
+  int pin;
+
+public:
+  Led(int inputPin) {
+    pin = inputPin;
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, LOW);
+  }
+
+  void on() {
+    digitalWrite(pin, HIGH);
+  }
+
+  void off() {
+    digitalWrite(pin, LOW);
+  }
+};
+
+Thermistor thermistorOne(D0);
+Led ledIndicator(D1);
+
+unsigned long lastCheck = 0;
+const unsigned long interval = 500;
+
+const int threshold = 2200;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  unsigned long now = millis();
+
+  if (now - lastCheck >= interval) {
+    lastCheck = now;
+
+    int reading = thermistorOne.readValue();
+
+    Serial.print("Thermistor reading: ");
+    Serial.println(reading);
+
+    if (reading > threshold) {
+      ledIndicator.on();
+    } else {
+      ledIndicator.off();
+    }
+  }
+}
+          </code>
+        </pre>
+        <p class="subtitle">
+            Here's the final result!
+        </p>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom" src="./thermistor.gif" alt="thermistor circuit turning on">
+                </div>
+                <div class="polaroid-caption">
+                    The working thermistor sensor.
+                </div>
+            </div>
+        </section>
     </main>
 </body>
 </html>

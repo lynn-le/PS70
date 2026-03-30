@@ -91,7 +91,7 @@ body {
 }
 
 .subheader {
-    margin: 0 0 10px;
+    margin: 10px 0 10px;
     color: var(--ink);
     font-size: 24px;
     font-weight: 600;

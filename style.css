@@ -180,26 +180,39 @@ body {
 }
 
 .notebook-table-wrap {
+    position: relative;
     overflow-x: auto;
+    padding-left: 42px;
     border: 1px solid rgba(31, 29, 26, 0.12);
     border-radius: 8px;
     background:
-        linear-gradient(90deg, transparent 68px, rgba(155, 122, 90, 0.24) 69px, transparent 70px),
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72) 43px, rgba(31, 29, 26, 0.08) 44px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78) 41px, rgba(31, 29, 26, 0.13) 42px),
         var(--paper);
     box-shadow: 0 14px 26px rgba(31, 29, 26, 0.08);
+}
+
+.notebook-table-wrap::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 28px;
+    width: 2px;
+    background: rgba(155, 122, 90, 0.32);
 }
 
 .notebook-table {
     width: 100%;
     min-width: 720px;
     border-collapse: collapse;
+    background: transparent;
 }
 
 .notebook-table th,
 .notebook-table td {
     padding: 16px 18px;
     border-bottom: 1px solid rgba(31, 29, 26, 0.1);
+    background: transparent;
     text-align: left;
     vertical-align: top;
 }

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynn's PS70 Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav class="menu">
+        <div class="menu-text">Lynn Le</div>
+        <div class="menu-links">
+            <a href="../index.html" class="menu-link">Home</a>
+            <a href="../about.html" class="menu-link">About</a>
+            <a href="final.html" class="menu-link">Final Project</a>
+            <a href="../useful.html" class="menu-link">Useful Materials</a>
+        </div>
+    </nav>
+
+    <header class="header">
+        <div class="header-text">
+            <h1 class="title">Final Project</h1>
+            <p class="subtitle">
+                A smart nail polish inventory system that combines custom storage,
+                RFID check-in/check-out, load sensing, and simple output feedback.
+            </p>
+        </div>
+    </header>
+
+    <main class="project-page">
+        <section class="project-section">
+            <h2 class="subheader">Project Overview</h2>
+            <p class="subtitle">
+                My final project focuses on building a smart inventory system for nail gel
+                and nail polish products. Nail bottles come in many different shapes and
+                sizes, so the project combines a custom storage enclosure with electronics
+                that can track whether a product is present, whether it has been checked
+                out, and roughly how much product remains.
+            </p>
+        </section>
+
+        <section class="notebook-section">
+            <div class="section-heading">
+                <h2 class="subheader">Bill of Materials</h2>
+                <p class="subtitle">A running list of the parts, supplies, and costs for the final build.</p>
+            </div>
+
+            <div class="notebook-table-wrap">
+                <table class="notebook-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Part</th>
+                            <th scope="col">Purpose</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Source</th>
+                            <th scope="col">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Xiao microcontroller</td>
+                            <td>Runs RFID, load sensor, LED, and command logic</td>
+                            <td>1</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Cell Load sensor</td>
+                            <td>Measures polish weight</td>
+                            <td>2</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>HX711 Amplifier</td>
+                            <td>Amplifies the measurements from load sensor for Xiao</td>
+                            <td>2</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>MFRC 522 RFID scanner</td>
+                            <td>Identifies bottles for check-in and check-out</td>
+                            <td>1</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>RFID tags</td>
+                            <td>Attach identities to individual polish bottles</td>
+                            <td>TBD</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>LED</td>
+                            <td>Provides visual scan feedback</td>
+                            <td>1</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>3D-printed base</td>
+                            <td>Stabilizes the drawer and sensor placement</td>
+                            <td>1</td>
+                            <td>Printed</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>3D-printed sensor housing</td>
+                            <td>Holds the half-cell sensors in place</td>
+                            <td>1</td>
+                            <td>Printed</td>
+                            <td>$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Plywood</td>
+                            <td>Used to build the drawer enclosure</td>
+                            <td>TBD</td>
+                            <td>Lab stock</td>
+                            <td>$0.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="row" colspan="4">Estimated Total</th>
+                            <td>$0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2 class="subheader">MVP Concept</h2>
+            <p class="subtitle">
+                The first iteration is an enclosure that can hold nail polish while hiding
+                load sensors underneath a false bottom. Each polish can be scanned with an
+                RFID reader when it is removed and scanned again when it is returned. The
+                load sensors help track changes in weight, while the RFID system handles
+                identity and check-in/check-out status.
+            </p>
+            <section class="gallery section-photo">
+                <div class="polaroid">
+                    <div class="polaroid-photo">
+                        <img src="../mod7/system.jpeg" alt="Completed MVP system">
+                    </div>
+                    <div class="polaroid-caption">The completed MVP.</div>
+                </div>
+            </section>
+
+            <h3 class="section-subheader">Physical Enclosure</h3>
+            <p class="subtitle">
+                The drawer was built to hold nail polish above the sensors. I used the
+                maximum height of the polish bottles to set the wall height, then made
+                alignment measurements with cardboard before assembling the structure.
+                The drawer could hold polish, but the walls were a little too tall, which
+                made the bottles harder to grab.
+            </p>
+            <p class="subtitle">
+                Balancing the drawer and getting consistent readings from the load sensors
+                was difficult, so I added a 3D-printed base. The readings are still not as
+                consistent as I want, so the next enclosure revision should adjust how the
+                sensors contact the drawer and may use higher-precision sensors.
+            </p>
+            <section class="gallery section-photo">
+                <div class="polaroid">
+                    <div class="polaroid-photo">
+                        <img src="../mod7/alignment.jpeg" alt="Cardboard alignment measurements">
+                    </div>
+                    <div class="polaroid-caption">Alignment measurements on cardboard.</div>
+                </div>
+            </section>
+
+            <h3 class="section-subheader">Electronics</h3>
+            <p class="subtitle">
+                The MVP circuit connects two load sensors, an RFID scanner, and an LED to
+                a Xiao. The LED currently acts as a visual indicator that a tag was scanned,
+                mostly for debugging. Future outputs could include additional LEDs or a
+                speaker to distinguish successful scans, failed scans, and newly registered
+                weights.
+            </p>
+            <section class="gallery section-photo">
+                <div class="polaroid">
+                    <div class="polaroid-photo">
+                        <img class="zoom-out" src="../mod7/circuit.jpeg" alt="Circuit diagram">
+                    </div>
+                    <div class="polaroid-caption">Circuit diagram of the system.</div>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-photo">
+                        <img src="../mod7/wiring.jpeg" alt="Physical wiring">
+                    </div>
+                    <div class="polaroid-caption">Breadboard view of the circuit.</div>
+                </div>
+            </section>
+
+            <h3 class="section-subheader">Software</h3>
+            <p class="subtitle">
+                The current Arduino code uses separate class systems for the LED, RFID
+                scanner, load sensors, and serial command interface. The test database is
+                still small, but the system can tare, recalibrate, and check nail polishes
+                in and out. After each action, the serial monitor gives feedback to the user.
+            </p>
+            <p class="subtitle">
+                For a future pass, I want to clean up the code structure and combine some
+                overlapping logic. The calibration logic works as a separate class right now,
+                but it may make more sense inside the scale sensor class.
+            </p>
+            <p class="subtitle"><a download href="../mod7/MVP.ino">Download the MVP Arduino code</a></p>
+
+            <h3 class="section-subheader">Next Steps</h2>
+            <ul class="project-list">
+                <li>Lower or reshape the drawer walls so the polish is easier to remove.</li>
+                <li>Improve how the drawer contacts the load sensors for more consistent readings.</li>
+                <li>Test higher-precision sensors because the weight changes can be small.</li>
+                <li>Add clearer output feedback for scan success, scan failure, and new weight registration.</li>
+                <li>Connect the physical inventory data to a website or visual interface.</li>
+                <li>Clean up the Arduino class structure and expand the polish database functions.</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2 class="subheader">Updates and Project Integration</h2>
+            <h3 class="section-subheader">Sensors</h3>
+            <p class="subtitle">
+                One of the biggest suggestions I had during our design review involved changing the
+                method I measured changes in weight. When debating on what path to take, I eventually
+                settled on half-cell sensors. While doing some research on them, I came across a 
+                <a href="https://circuitjournal.com/50kg-load-cells-with-HX711">tutorial</a> that I 
+                ended up using to integrate the new sensor.
+            </p>
+            <p class="subtitle">
+                I ended up printing a new 3D housing for the half-cell sensor to attach it to the base.
+                The STL file can be found <a download href="./halfCellHousing.stl">here</a>. Afterwards, I followed
+                the tutorial to wire a single half-cell sensor. However, when running code to test it,
+                I found that the measured values of the sensor kept oscillating. I tried to troubleshoot
+                the problem through various methods, replacing different parts of the circuit, resoldering
+                connections, and using different voltages. Jessica suggested shortening the wires connected to
+                the sensors and using the oscilloscope to help identify where exactly the problem is, which I plan
+                to do next.
+            </p>
+            <h3 class="section-subheader">Code</h3>
+            <p class="subtitle">
+                One of my goals after MVP week was to create a website or visual interface to interact with my
+                inventory system. Using what we learned, I transformed the code I made for my MVP, utilizing websockets
+                to create my interface. In addition, I wanted to to make the LED light more informative, for testing purposes.
+                The <a download href="./projectIntegration/projectIntegration.ino">result</a> involved encoding information through
+                flashes. The website itself has both an inventory status, displaying the database and information per entry, as well
+                as a section for live sensor readings.
+            </p>
+
+            <p class="subtitle">For the future, I still need to implement more functionality, including adding/deleting polishes. I might
+                also tweak the design of the website, but that's just an aesthetic issue. As for the wider project, I'm hoping to make it 
+                independent of my computer soon, adding a different source for power. However, doing so requires me to figure out the 
+                sensor first.
+            </p>
+        </section>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./website.jpeg" alt="new visual interface">
+                </div>
+                <div class="polaroid-caption">The website interface.</div>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

@@ -107,6 +107,125 @@ body {
         repeating-linear-gradient(45deg, rgba(31, 29, 26, 0.05), rgba(31, 29, 26, 0.05) 6px, transparent 6px, transparent 12px);
 }
 
+.project-page {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.project-section {
+    margin: 0 0 44px;
+}
+
+.project-section .subtitle + .subtitle {
+    margin-top: 14px;
+}
+
+.project-section .gallery {
+    padding: 24px 0 0;
+}
+
+.section-subheader {
+    display: inline-block;
+    margin: 30px 0 12px;
+    padding: 0 0 6px;
+    border-bottom: 2px solid rgba(155, 122, 90, 0.36);
+    color: var(--ink);
+    font-family: "Work Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin: 20px 0;
+}
+
+.note-card {
+    padding: 18px;
+    border: 1px solid rgba(31, 29, 26, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 10px 18px rgba(31, 29, 26, 0.07);
+}
+
+.note-card h3 {
+    margin: 0 0 10px;
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+}
+
+.note-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.project-list {
+    margin: 12px 0 0;
+    padding-left: 22px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.notebook-section {
+    max-width: 980px;
+    margin: 0 auto 48px;
+}
+
+.section-heading {
+    margin-bottom: 18px;
+}
+
+.notebook-table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(31, 29, 26, 0.12);
+    border-radius: 8px;
+    background:
+        linear-gradient(90deg, transparent 68px, rgba(155, 122, 90, 0.24) 69px, transparent 70px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72) 43px, rgba(31, 29, 26, 0.08) 44px),
+        var(--paper);
+    box-shadow: 0 14px 26px rgba(31, 29, 26, 0.08);
+}
+
+.notebook-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+}
+
+.notebook-table th,
+.notebook-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(31, 29, 26, 0.1);
+    text-align: left;
+    vertical-align: top;
+}
+
+.notebook-table th {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.notebook-table td {
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+.notebook-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.42);
+}
+
+.notebook-table tfoot th,
+.notebook-table tfoot td {
+    border-bottom: 0;
+    color: var(--ink);
+    font-weight: 700;
+}
+
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

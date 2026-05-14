@@ -267,6 +267,128 @@
                 <div class="polaroid-caption">The website interface.</div>
             </div>
         </section>
+        <section class="project-section">
+            <h2 class="subheader">Final Sprint</h2>
+            <h3 class="section-subheader">Sensors</h3>
+            <p class="subtitle">
+                As mentioned previously, I tried to incorporate square half-cell load sensors into my project. 
+                However, despite various methods of troubleshooting, including shortening the wires, braiding them,
+                and using an oscilloscope to diagnose the problem, I couldn't figure out how to get consistent
+                readings. Given the time constraint, I decided to go back to bar load sensors, this time only using
+                one bar. My hope was that by using only one bar, I would decrease inconsistencies in readings that
+                I encountered before. Either way, my readings before with the bar cell were already more consistent
+                than with the square cell.
+            </p>
+            <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./braid.jpeg" alt="braided cell">
+                </div>
+                <div class="polaroid-caption">Troubleshooting half-cell sensor.</div>
+            </div>
+        </section>
+            <h3 class="section-subheader">Code</h3>
+            <p class="subtitle">
+                However, after trying to run the old bar sensors with my code, I ran into various issues. First, my RFID
+                scanner would no longer scan my polish. After many hours of testing and troubleshooting, I realized that
+                my current libraries were no longer compatabile with each other, which is why I switched to a different 
+                amplifier library, also changing relevant code associated with it. In addition, I realized that even after 
+                changing libraries, I was getting highly inconsistent weight readings, similar to my half-cell readings. 
+                Eventually, I realized that changing libraries didn't fully stop the signal interference between the RFID
+                and weight sensor, meaning that I had to find a better solution. 
+            </p>
+            <p class="subtitle">
+                As for the website, I implemented small changes. I added buttons to tare and calibrate, since I often 
+                needed to do so for my project. Otherwise, the website stayed mostly the same. 
+            </p>
+
+            <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./websiteNew.jpeg" alt="new visual interface">
+                </div>
+                <div class="polaroid-caption">The website interface.</div>
+            </div>
+        </section>
+            <h3 class="section-subheader">Circuitry</h3>
+            <p class="subtitle">
+                A bulk of the change happened in the wiring of this project. First, I decided to use two xiaos
+                in order to avoid the signal interference that was present in the previous iteration. As such,
+                I had to rewire my system for two xiaos, also adding in wiring to support serial communication.
+                I also had to think about how to wire my xiaos with an independent power source. When using my
+                computer, I just connected my xiaos' 5V pins to each other. However, when adding my 3.7V battery,
+                I needed to rewire my circuitry to get power to both xiaos. After I figured out the wiring, I 
+                soldered them onto two small protoboards, since I wanted to hide them in my drawer.
+            </p>
+            <p class="subtitle">
+                The most difficult part here was keeping the wires connected to the battery and the sensor intact. 
+                They were pretty fragile, and often snapped after soldering due to moving them around a lot. I had 
+                to revist the soldering station often because of this.
+            </p>
+            <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./diagram.jpeg" alt="finished diagram">
+                </div>
+                <div class="polaroid-caption">The complete circuit diagram.</div>
+            </div>
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./breadboard.jpeg" alt="breadboard of circuit">
+                </div>
+                <div class="polaroid-caption">Breadboard image of circuit.</div>
+            </div>
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./protoboard.jpeg" alt="sautered">
+                </div>
+                <div class="polaroid-caption">Protoboard circuit.</div>
+            </div>
+        </section>
+            <h3 class="section-subheader">Enclosure</h3>
+            <p class="subtitle">
+                Finally, I had to redesign my drawer system. Taking into account both design issues in my MVP as well 
+                as logistical issues, I had to redo many aspects. First, I had to decrease the walls of my drawer. In 
+                the process, I had to also reconfigure it for only one load sensor. The result was a 3D-printed part 
+                that would mount directly onto the cell.
+            </p>
+        </section>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./drawer.jpeg" alt="3D printed drawer">
+                </div>
+                <div class="polaroid-caption">Actual drawer.</div>
+            </div>
+        </section>
+        <p class="subtitle">
+                In addition, I had to figure out how to make the drawer function as one, sliding open and closed into 
+                the enclosure. Bobby recommended I use a slot to guide movement while also constraing it in a linear
+                motion. I prototyped with different lengths to decide the depth of motion. Once I figured that out, 
+                I made the full enclosure, complete with a false bottom to hold a heavy metal piece, centering the drawer. 
+                In addition, I decided to mount my protoboards on the top of my drawer, since it would hide the wiring while 
+                still keeping the form factor. Unfortunately, I didn't add enough clearance near the top of the drawer for this
+                 decision, but it would be an easy fix.
+            </p>
+        </section>
+        <section class="gallery section-photo">
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./slideProto.jpeg" alt="sliding parts">
+                </div>
+                <div class="polaroid-caption">Prototypes of the sliding mechanism.</div>
+            </div>
+            <div class="polaroid">
+                <div class="polaroid-photo">
+                    <img class="zoom-out" src="./sliding.gif" alt="slide jpeg">
+                </div>
+                <div class="polaroid-caption">The sliding mechanism.</div>
+            </div>
+        </section>
+
+        <p class="subtitle">
+                All together, the parts formed a <a href="https://youtu.be/gqk7ziN_laY"> demo</a>!
+            </p>
 
     </main>
 </body>
